@@ -1,0 +1,487 @@
+:root {
+  --text: #3c3c43;
+  --text-h: #0f172a;
+  --bg: #ffffff;
+  --bg-subtle: #f7f7f8;
+  --border: #e5e5ea;
+  --accent: #2563eb;
+  --accent-bg: rgba(37, 99, 235, 0.1);
+  --danger: #dc2626;
+  font: 15px/1.5 -apple-system, "Segoe UI", Roboto, sans-serif;
+  color-scheme: light dark;
+  color: var(--text);
+  background: var(--bg);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text: #d1d5db;
+    --text-h: #f9fafb;
+    --bg: #16171d;
+    --bg-subtle: #1c1d24;
+    --border: #2e303a;
+    --accent: #60a5fa;
+    --accent-bg: rgba(96, 165, 250, 0.15);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 8px;
+}
+
+/* ---------- Auth ---------- */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-subtle);
+}
+.auth-card {
+  width: 340px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px;
+}
+.auth-card h1 {
+  margin: 0;
+  color: var(--text-h);
+}
+.auth-subtitle {
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.auth-card label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+}
+.auth-card button[type="submit"] {
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 10px;
+  font-weight: 600;
+}
+.auth-toggle {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: 13px;
+}
+.auth-error {
+  color: var(--danger);
+  font-size: 13px;
+}
+.loading-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+/* ---------- App shell ---------- */
+.app-shell {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  background: var(--bg-subtle);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+.sidebar-header {
+  padding: 16px 16px 8px;
+}
+.brand {
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--text-h);
+}
+.sidebar-user {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px 12px;
+  font-size: 13px;
+  border-bottom: 1px solid var(--border);
+}
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  gap: 2px;
+}
+.sidebar-section-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text);
+  opacity: 0.6;
+  margin: 12px 8px 4px;
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-align: left;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  padding: 7px 8px;
+  color: var(--text);
+  width: 100%;
+}
+.nav-item:hover {
+  background: var(--border);
+}
+.nav-item.active {
+  background: var(--accent-bg);
+  color: var(--accent);
+  font-weight: 600;
+}
+.nav-item-row {
+  display: flex;
+  align-items: center;
+}
+.nav-item-row .nav-item {
+  flex: 1;
+}
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.link-btn {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: 13px;
+  padding: 2px 6px;
+}
+.link-btn.small {
+  font-size: 16px;
+  line-height: 1;
+  padding: 0 4px;
+}
+.link-btn.danger {
+  color: var(--danger);
+}
+.add-list-row {
+  display: flex;
+  gap: 4px;
+  padding: 4px 8px;
+}
+.add-list-row input {
+  flex: 1;
+}
+
+/* ---------- Task pane ---------- */
+.task-pane {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 0 24px;
+  min-width: 0;
+}
+.task-pane-header {
+  padding: 20px 0 8px;
+}
+.task-pane-header h2 {
+  margin: 0;
+  color: var(--text-h);
+}
+.error-banner {
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+.add-task-row {
+  margin-bottom: 8px;
+}
+.add-task-row input {
+  width: 100%;
+  padding: 10px 12px;
+}
+.task-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.subtask-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.task-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+}
+.task-row.indent {
+  padding-left: 34px;
+}
+.task-row:hover {
+  background: var(--bg-subtle);
+}
+.task-row.selected {
+  background: var(--accent-bg);
+}
+.task-row-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.task-title {
+  color: var(--text-h);
+}
+.task-title.completed {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+.task-meta {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.due-badge {
+  font-size: 12px;
+  color: var(--accent);
+}
+.due-badge.overdue {
+  color: var(--danger);
+}
+.recur-badge {
+  font-size: 12px;
+  color: var(--text);
+  opacity: 0.7;
+}
+.tag-badge {
+  font-size: 11px;
+  border: 1px solid;
+  border-radius: 10px;
+  padding: 0 6px;
+  opacity: 0.8;
+}
+.priority-flag {
+  font-size: 12px;
+}
+.empty-state {
+  padding: 40px;
+  text-align: center;
+  opacity: 0.6;
+}
+
+/* ---------- Task detail ---------- */
+.task-detail {
+  width: 320px;
+  flex-shrink: 0;
+  border-left: 1px solid var(--border);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow-y: auto;
+}
+.task-detail-header {
+  display: flex;
+  justify-content: space-between;
+}
+.detail-title {
+  font-size: 17px;
+  font-weight: 600;
+  border: none;
+  padding: 4px 0;
+}
+.detail-notes {
+  border: none;
+  background: var(--bg-subtle);
+  border-radius: 6px;
+  padding: 8px;
+  min-height: 60px;
+  resize: vertical;
+}
+.detail-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.detail-field label {
+  font-size: 12px;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+.priority-picker {
+  display: flex;
+  gap: 4px;
+}
+.priority-btn {
+  flex: 1;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  border-radius: 6px;
+  padding: 6px 0;
+  font-size: 12px;
+}
+.priority-btn.active {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+.repeat-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.repeat-row input[type="number"] {
+  width: 50px;
+}
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+.tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid;
+  border-radius: 10px;
+  padding: 2px 6px;
+  font-size: 12px;
+}
+.tag-chip button {
+  background: none;
+  border: none;
+  color: inherit;
+  padding: 0;
+  font-size: 13px;
+}
+.tag-input-row {
+  display: flex;
+  gap: 6px;
+}
+.tag-input-row input {
+  flex: 1;
+}
+
+/* ---------- Calendar ---------- */
+.calendar-view {
+  padding-bottom: 24px;
+}
+.calendar-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+  font-weight: 600;
+  color: var(--text-h);
+}
+.calendar-header button {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  width: 28px;
+  height: 28px;
+}
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+.calendar-dow {
+  background: var(--bg-subtle);
+  text-align: center;
+  font-size: 12px;
+  padding: 6px 0;
+  opacity: 0.7;
+}
+.calendar-cell {
+  background: var(--bg);
+  min-height: 90px;
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.calendar-cell.outside {
+  opacity: 0.35;
+}
+.calendar-cell.today .calendar-date {
+  color: var(--accent);
+  font-weight: 700;
+}
+.calendar-date {
+  font-size: 12px;
+}
+.calendar-tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.calendar-task {
+  font-size: 11px;
+  background: var(--accent-bg);
+  color: var(--accent);
+  border-radius: 4px;
+  padding: 1px 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.calendar-task.completed {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+.calendar-more {
+  font-size: 10px;
+  opacity: 0.6;
+}
