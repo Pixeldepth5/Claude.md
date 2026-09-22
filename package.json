@@ -1,0 +1,16 @@
+{
+  "name": "jarvis",
+  "version": "0.1.0",
+  "description": "A text-based personal assistant powered by the Claude API with tool use.",
+  "type": "module",
+  "main": "src/index.js",
+  "bin": {
+    "jarvis": "src/index.js"
+  },
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.32.1"
+  }
+}
