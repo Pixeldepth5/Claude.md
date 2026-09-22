@@ -11,11 +11,13 @@ A TickTick-inspired task manager: React + TypeScript client, Node/Express + SQLi
 - Tags and tag filtering
 - Smart lists: Today, Next 7 Days, High Priority, All Tasks
 - Calendar (month) view
+- Habit tracker: daily habits, check-in grid, streak counting
+- Eisenhower Matrix: mark any task Urgent/Important and view it sorted into Do/Schedule/Delegate/Eliminate quadrants, with one-click moves between quadrants
 - Real backend: syncing across devices works once the server is deployed somewhere reachable (see below)
 
 ## Not implemented (explicitly deferred, not TickTick features I forgot)
 
-Pomodoro timer, habit tracking, Eisenhower matrix, collaboration/sharing, push notifications, natural-language date parsing, themes, widgets, native mobile/desktop apps.
+Pomodoro timer, collaboration/sharing, push notifications, natural-language date parsing, themes, widgets, native mobile/desktop apps.
 
 ## Running locally
 

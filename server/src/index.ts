@@ -5,6 +5,7 @@ import { authRouter } from "./routes/authRoutes.js";
 import { listRouter } from "./routes/listRoutes.js";
 import { tagRouter } from "./routes/tagRoutes.js";
 import { taskRouter } from "./routes/taskRoutes.js";
+import { habitRouter } from "./routes/habitRoutes.js";
 
 if (!process.env.JWT_SECRET) {
   console.warn(
@@ -21,6 +22,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/lists", listRouter);
 app.use("/api/tags", tagRouter);
 app.use("/api/tasks", taskRouter);
+app.use("/api/habits", habitRouter);
 
 app.use((_req, res) => res.status(404).json({ error: "Not found" }));
 

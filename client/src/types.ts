@@ -32,6 +32,8 @@ export interface Task {
   recurringInterval: number | null;
   isCompleted: boolean;
   completedAt: string | null;
+  isUrgent: boolean;
+  isImportant: boolean;
   sortOrder: number;
   createdAt: string;
   updatedAt: string;
@@ -39,3 +41,16 @@ export interface Task {
 }
 
 export type SmartView = "all" | "today" | "next7" | "priority";
+
+export interface Habit {
+  id: string;
+  name: string;
+  color: string;
+  frequency: "daily" | "custom";
+  daysOfWeek: number[] | null;
+  archived: boolean;
+  sortOrder: number;
+  createdAt: string;
+  checkins: string[];
+  streak: number;
+}

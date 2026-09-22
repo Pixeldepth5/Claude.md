@@ -5,12 +5,16 @@ import type { SmartView, Tag, Task, TaskList } from "../types";
 import { TaskRow } from "../components/TaskRow";
 import { TaskDetail } from "../components/TaskDetail";
 import { CalendarView } from "./CalendarView";
+import { HabitTracker } from "./HabitTracker";
+import { EisenhowerMatrix } from "./EisenhowerMatrix";
 
 type ViewSelection =
   | { kind: "smart"; smart: SmartView }
   | { kind: "list"; listId: string }
   | { kind: "tag"; tagName: string }
-  | { kind: "calendar" };
+  | { kind: "calendar" }
+  | { kind: "habits" }
+  | { kind: "matrix" };
 
 const PRIORITY_LABELS = ["None", "Low", "Medium", "High"];
 const PRIORITY_VALUES = [0, 1, 3, 5];
@@ -35,10 +39,11 @@ export function MainApp() {
   }, []);
 
   const refreshTasks = useCallback(() => {
-    if (view.kind === "calendar") {
+    if (view.kind === "calendar" || view.kind === "matrix") {
       api.getTasks({ includeCompleted: false }).then(({ tasks }) => setTasks(tasks));
       return;
     }
+    if (view.kind === "habits") return;
     const params =
       view.kind === "smart"
         ? { smart: view.smart === "all" ? undefined : view.smart }
@@ -129,7 +134,11 @@ export function MainApp() {
         ? (lists.find((l) => l.id === view.listId)?.name ?? "List")
         : view.kind === "tag"
           ? `#${view.tagName}`
-          : "Calendar";
+          : view.kind === "calendar"
+            ? "Calendar"
+            : view.kind === "matrix"
+              ? "Eisenhower Matrix"
+              : "Habit Tracker";
 
   return (
     <div className="app-shell">
@@ -159,6 +168,18 @@ export function MainApp() {
             onClick={() => setView({ kind: "calendar" })}
           >
             Calendar
+          </button>
+          <button
+            className={`nav-item ${view.kind === "matrix" ? "active" : ""}`}
+            onClick={() => setView({ kind: "matrix" })}
+          >
+            Eisenhower Matrix
+          </button>
+          <button
+            className={`nav-item ${view.kind === "habits" ? "active" : ""}`}
+            onClick={() => setView({ kind: "habits" })}
+          >
+            Habit Tracker
           </button>
 
           <div className="sidebar-section-label">
@@ -221,6 +242,10 @@ export function MainApp() {
 
         {view.kind === "calendar" ? (
           <CalendarView tasks={tasks} onSelect={setSelectedTaskId} />
+        ) : view.kind === "habits" ? (
+          <HabitTracker />
+        ) : view.kind === "matrix" ? (
+          <EisenhowerMatrix tasks={tasks} onSelect={setSelectedTaskId} onChanged={refreshTasks} />
         ) : (
           <>
             {view.kind !== "tag" && (

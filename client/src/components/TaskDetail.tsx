@@ -150,6 +150,28 @@ export function TaskDetail({
       </div>
 
       <div className="detail-field">
+        <label>Eisenhower Matrix</label>
+        <div className="matrix-toggle-row">
+          <label className="checkbox-label">
+            <input
+              type="checkbox"
+              checked={task.isUrgent}
+              onChange={(e) => save({ isUrgent: e.target.checked })}
+            />
+            Urgent
+          </label>
+          <label className="checkbox-label">
+            <input
+              type="checkbox"
+              checked={task.isImportant}
+              onChange={(e) => save({ isImportant: e.target.checked })}
+            />
+            Important
+          </label>
+        </div>
+      </div>
+
+      <div className="detail-field">
         <label>Repeat</label>
         <div className="repeat-row">
           <select

@@ -20,6 +20,8 @@ interface TaskRow {
   recurring_interval: number | null;
   is_completed: number;
   completed_at: string | null;
+  is_urgent: number;
+  is_important: number;
   sort_order: number;
   created_at: string;
   updated_at: string;
@@ -57,6 +59,8 @@ function serialize(task: TaskRow, tagMap: Map<string, { id: string; name: string
     recurringInterval: task.recurring_interval,
     isCompleted: !!task.is_completed,
     completedAt: task.completed_at,
+    isUrgent: !!task.is_urgent,
+    isImportant: !!task.is_important,
     sortOrder: task.sort_order,
     createdAt: task.created_at,
     updatedAt: task.updated_at,
@@ -133,6 +137,8 @@ taskRouter.post("/", (req: AuthedRequest, res) => {
     recurringFreq,
     recurringInterval,
     tagIds,
+    isUrgent,
+    isImportant,
   } = req.body ?? {};
 
   if (typeof listId !== "string" || typeof title !== "string" || !title.trim()) {
@@ -154,8 +160,8 @@ taskRouter.post("/", (req: AuthedRequest, res) => {
     .get(listId) as { m: number };
 
   db.prepare(
-    `INSERT INTO tasks (id, user_id, list_id, parent_id, title, notes, due_date, priority, recurring_freq, recurring_interval, sort_order)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+    `INSERT INTO tasks (id, user_id, list_id, parent_id, title, notes, due_date, priority, recurring_freq, recurring_interval, is_urgent, is_important, sort_order)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
   ).run(
     id,
     req.userId,
@@ -167,6 +173,8 @@ taskRouter.post("/", (req: AuthedRequest, res) => {
     typeof priority === "number" ? priority : 0,
     typeof recurringFreq === "string" ? recurringFreq : null,
     typeof recurringInterval === "number" ? recurringInterval : null,
+    isUrgent ? 1 : 0,
+    isImportant ? 1 : 0,
     maxOrder.m + 1
   );
   setTaskTags(id, tagIds);
@@ -182,8 +190,19 @@ taskRouter.put("/:id", (req: AuthedRequest, res) => {
     .get(req.params.id, req.userId) as TaskRow | undefined;
   if (!existing) return res.status(404).json({ error: "Task not found" });
 
-  const { title, notes, dueDate, priority, listId, recurringFreq, recurringInterval, tagIds, sortOrder } =
-    req.body ?? {};
+  const {
+    title,
+    notes,
+    dueDate,
+    priority,
+    listId,
+    recurringFreq,
+    recurringInterval,
+    tagIds,
+    sortOrder,
+    isUrgent,
+    isImportant,
+  } = req.body ?? {};
 
   db.prepare(
     `UPDATE tasks SET
@@ -195,6 +214,8 @@ taskRouter.put("/:id", (req: AuthedRequest, res) => {
       recurring_freq = ?,
       recurring_interval = ?,
       sort_order = COALESCE(?, sort_order),
+      is_urgent = COALESCE(?, is_urgent),
+      is_important = COALESCE(?, is_important),
       updated_at = datetime('now')
      WHERE id = ?`
   ).run(
@@ -206,6 +227,8 @@ taskRouter.put("/:id", (req: AuthedRequest, res) => {
     recurringFreq === undefined ? existing.recurring_freq : recurringFreq,
     recurringInterval === undefined ? existing.recurring_interval : recurringInterval,
     typeof sortOrder === "number" ? sortOrder : null,
+    typeof isUrgent === "boolean" ? (isUrgent ? 1 : 0) : null,
+    typeof isImportant === "boolean" ? (isImportant ? 1 : 0) : null,
     req.params.id
   );
 
@@ -238,8 +261,8 @@ taskRouter.post("/:id/complete", (req: AuthedRequest, res) => {
     const newDue = nextDueDate(task.due_date, task.recurring_freq, task.recurring_interval);
     const newId = uuid();
     db.prepare(
-      `INSERT INTO tasks (id, user_id, list_id, parent_id, title, notes, due_date, priority, recurring_freq, recurring_interval, sort_order)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+      `INSERT INTO tasks (id, user_id, list_id, parent_id, title, notes, due_date, priority, recurring_freq, recurring_interval, is_urgent, is_important, sort_order)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
     ).run(
       newId,
       task.user_id,
@@ -251,6 +274,8 @@ taskRouter.post("/:id/complete", (req: AuthedRequest, res) => {
       task.priority,
       task.recurring_freq,
       task.recurring_interval,
+      task.is_urgent,
+      task.is_important,
       task.sort_order
     );
     const existingTags = db.prepare("SELECT tag_id FROM task_tags WHERE task_id = ?").all(task.id) as {

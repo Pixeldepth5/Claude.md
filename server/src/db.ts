@@ -41,6 +41,8 @@ CREATE TABLE IF NOT EXISTS tasks (
   recurring_interval INTEGER,
   is_completed INTEGER NOT NULL DEFAULT 0,
   completed_at TEXT,
+  is_urgent INTEGER NOT NULL DEFAULT 0,
+  is_important INTEGER NOT NULL DEFAULT 0,
   sort_order INTEGER NOT NULL DEFAULT 0,
   created_at TEXT NOT NULL DEFAULT (datetime('now')),
   updated_at TEXT NOT NULL DEFAULT (datetime('now'))
@@ -60,9 +62,30 @@ CREATE TABLE IF NOT EXISTS task_tags (
   PRIMARY KEY (task_id, tag_id)
 );
 
+CREATE TABLE IF NOT EXISTS habits (
+  id TEXT PRIMARY KEY,
+  user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  name TEXT NOT NULL,
+  color TEXT NOT NULL DEFAULT '#10b981',
+  frequency TEXT NOT NULL DEFAULT 'daily',
+  days_of_week TEXT,
+  archived INTEGER NOT NULL DEFAULT 0,
+  sort_order INTEGER NOT NULL DEFAULT 0,
+  created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE TABLE IF NOT EXISTS habit_checkins (
+  habit_id TEXT NOT NULL REFERENCES habits(id) ON DELETE CASCADE,
+  date TEXT NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (datetime('now')),
+  PRIMARY KEY (habit_id, date)
+);
+
 CREATE INDEX IF NOT EXISTS idx_lists_user ON lists(user_id);
 CREATE INDEX IF NOT EXISTS idx_tasks_user ON tasks(user_id);
 CREATE INDEX IF NOT EXISTS idx_tasks_list ON tasks(list_id);
 CREATE INDEX IF NOT EXISTS idx_tasks_parent ON tasks(parent_id);
 CREATE INDEX IF NOT EXISTS idx_tags_user ON tags(user_id);
+CREATE INDEX IF NOT EXISTS idx_habits_user ON habits(user_id);
+CREATE INDEX IF NOT EXISTS idx_habit_checkins_habit ON habit_checkins(habit_id);
 `);

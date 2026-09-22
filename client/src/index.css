@@ -485,3 +485,151 @@ textarea {
   font-size: 10px;
   opacity: 0.6;
 }
+
+/* ---------- Habit tracker ---------- */
+.habit-tracker {
+  padding-bottom: 24px;
+}
+.habit-header-row {
+  margin-bottom: 8px;
+}
+.habit-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+.habit-table th,
+.habit-table td {
+  padding: 6px 4px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+.habit-name-col {
+  text-align: left !important;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-right: 12px !important;
+}
+.habit-day-col {
+  font-size: 11px;
+  opacity: 0.6;
+  width: 28px;
+}
+.habit-day-col.today {
+  color: var(--accent);
+  font-weight: 700;
+  opacity: 1;
+}
+.habit-streak-col {
+  font-size: 13px;
+  white-space: nowrap;
+}
+.habit-cell {
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  border: 1px solid var(--border);
+  background: var(--bg-subtle);
+  padding: 0;
+}
+.habit-cell.done {
+  border-width: 0;
+}
+.link-btn.danger.small {
+  font-size: 16px;
+  padding: 0 4px;
+}
+
+/* ---------- Eisenhower matrix ---------- */
+.matrix-view {
+  padding-bottom: 24px;
+}
+.matrix-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.matrix-quadrant {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+  min-height: 160px;
+  border-top: 4px solid var(--border);
+}
+.quadrant-do {
+  border-top-color: #e11d48;
+}
+.quadrant-schedule {
+  border-top-color: #2563eb;
+}
+.quadrant-delegate {
+  border-top-color: #f59e0b;
+}
+.quadrant-delete {
+  border-top-color: #6b7280;
+}
+.matrix-quadrant-header {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 8px;
+}
+.matrix-quadrant-header span {
+  font-size: 11px;
+  opacity: 0.6;
+}
+.matrix-task-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.matrix-task {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 8px;
+  background: var(--bg-subtle);
+  border-radius: 6px;
+  font-size: 13px;
+}
+.matrix-task span:first-child {
+  cursor: pointer;
+  flex: 1;
+}
+.matrix-task-actions {
+  display: flex;
+  gap: 2px;
+}
+.matrix-task-actions button {
+  width: 20px;
+  height: 20px;
+  font-size: 10px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg);
+  padding: 0;
+}
+.matrix-empty {
+  font-size: 12px;
+  opacity: 0.5;
+  padding: 4px 8px;
+}
+
+/* ---------- Matrix toggle in detail panel ---------- */
+.matrix-toggle-row {
+  display: flex;
+  gap: 16px;
+}
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  text-transform: none;
+}
+.checkbox-label input {
+  width: auto;
+}

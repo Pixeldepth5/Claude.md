@@ -1,4 +1,4 @@
-import type { Tag, Task, TaskList, User } from "./types";
+import type { Habit, Tag, Task, TaskList, User } from "./types";
 
 const API_BASE = import.meta.env.VITE_API_URL ?? "http://localhost:4000/api";
 
@@ -80,6 +80,8 @@ export const api = {
     recurringFreq?: string | null;
     recurringInterval?: number | null;
     tagIds?: string[];
+    isUrgent?: boolean;
+    isImportant?: boolean;
   }) => request<{ task: Task }>("/tasks", { method: "POST", body: JSON.stringify(input) }),
   updateTask: (
     id: string,
@@ -93,12 +95,27 @@ export const api = {
       recurringInterval: number | null;
       tagIds: string[];
       sortOrder: number;
+      isUrgent: boolean;
+      isImportant: boolean;
     }>
   ) => request<{ task: Task }>(`/tasks/${id}`, { method: "PUT", body: JSON.stringify(patch) }),
   completeTask: (id: string) =>
     request<{ task: Task; nextOccurrence: Task | null }>(`/tasks/${id}/complete`, { method: "POST" }),
   uncompleteTask: (id: string) => request<{ task: Task }>(`/tasks/${id}/uncomplete`, { method: "POST" }),
   deleteTask: (id: string) => request<void>(`/tasks/${id}`, { method: "DELETE" }),
+
+  getHabits: (days = 35) => request<{ habits: Habit[] }>(`/habits?days=${days}`),
+  createHabit: (input: { name: string; color?: string; frequency?: "daily" | "custom"; daysOfWeek?: number[] }) =>
+    request<{ habit: Habit }>("/habits", { method: "POST", body: JSON.stringify(input) }),
+  updateHabit: (
+    id: string,
+    patch: Partial<{ name: string; color: string; frequency: "daily" | "custom"; daysOfWeek: number[] | null; archived: boolean }>
+  ) => request<{ habit: Habit }>(`/habits/${id}`, { method: "PUT", body: JSON.stringify(patch) }),
+  deleteHabit: (id: string) => request<void>(`/habits/${id}`, { method: "DELETE" }),
+  checkinHabit: (id: string, date?: string) =>
+    request<{ habit: Habit }>(`/habits/${id}/checkin`, { method: "POST", body: JSON.stringify({ date }) }),
+  uncheckinHabit: (id: string, date: string) =>
+    request<{ habit: Habit }>(`/habits/${id}/checkin/${date}`, { method: "DELETE" }),
 };
 
 export { ApiError };
