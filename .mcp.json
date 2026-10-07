@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "sfx": {
+      "command": "uv",
+      "args": ["run", "--directory", "D:\\Dev\\repos\\sfx-mcp", "python", "-m", "sfx_mcp"]
+    }
+  }
+}
